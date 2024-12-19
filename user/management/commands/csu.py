@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
+from django.template.defaultfilters import title
 
+from course.models import Lesson, Course
 from user.models import Payment, User
 
 
@@ -15,11 +17,21 @@ class Command(BaseCommand):
         user.save()
         self.stdout.write(self.style.SUCCESS("User created successfully."))
 
+        course = Course.objects.create(
+            title='Вводный',
+            description='Вводный курс',
+        )
+        lesson = Lesson.objects.create(
+            title='Вводный',
+            description='Вводный курс',
+            course=Course.objects.get(pk=course.pk)
+        )
+
         Payment.objects.create(
             owner=user,
             payment_date="2024-12-01",
-            paid_course_id=2,
-            paid_lesson=None,
+            course=Course.objects.get(pk=course.pk),
+            lesson=None,
             amount=1000.00,
             type="CASH",
         )
@@ -27,8 +39,8 @@ class Command(BaseCommand):
         Payment.objects.create(
             owner=user,
             payment_date="2024-12-02",
-            paid_course=None,
-            paid_lesson_id=3,
+            course=None,
+            lesson=Lesson.objects.get(pk=lesson.pk),
             amount=2000.00,
             type="ONLINE",
         )
