@@ -25,9 +25,9 @@ class CourseViewSet(ModelViewSet):
         if self.action == 'create':
             self.permission_classes = (~IsModer,)
         elif self.action == 'destroy':
-            self.permission_classes = (~IsModer, IsOwner)
+            self.permission_classes = (~IsModer | IsOwner,)
         elif self.action in ['update','retrieve']:
-            self.permission_classes = (IsModer, IsOwner)
+            self.permission_classes = (IsModer | IsOwner,)
         else:
             self.permission_classes = (IsModer,)
         return super().get_permissions()
@@ -46,7 +46,7 @@ class LessonListApiView(ListAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (IsModer, IsOwner)
+        self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
 
 
@@ -55,7 +55,7 @@ class LessonRetrieveApiView(RetrieveAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (IsModer, IsOwner)
+        self.permission_classes = (IsModer | IsOwner, )
         return super().get_permissions()
 
 
@@ -64,7 +64,7 @@ class LessonUpdateApiView(UpdateAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (IsModer, IsOwner)
+        self.permission_classes = (IsModer | IsOwner, )
         return super().get_permissions()
 
 
@@ -72,5 +72,5 @@ class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (~IsModer, IsOwner)
+        self.permission_classes = (~IsModer | IsOwner, )
         return super().get_permissions()
