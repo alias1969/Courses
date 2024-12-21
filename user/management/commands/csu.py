@@ -13,6 +13,7 @@ class Command(BaseCommand):
         user, user_status = User.objects.get_or_create(**params)
 
         user.is_staff = True
+        user.is_active = True
         user.is_superuser = True
         user.save()
         self.stdout.write(self.style.SUCCESS("User created successfully."))

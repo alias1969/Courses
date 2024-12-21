@@ -20,6 +20,12 @@ class Course(models.Model):
         help_text="Загрузите превью",
         **NULLABLE,
     )
+    owner = models.ForeignKey(
+        'user.User',
+        on_delete=models.CASCADE,
+        verbose_name='автор',
+        **NULLABLE,
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -59,6 +65,12 @@ class Lesson(models.Model):
         max_length=200,
         verbose_name="Ссылка на видео",
         help_text="Загрузите видео",
+        **NULLABLE,
+    )
+    owner = models.ForeignKey(
+        'user.User',
+        on_delete=models.CASCADE,
+        verbose_name='автор',
         **NULLABLE,
     )
 
