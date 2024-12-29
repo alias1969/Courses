@@ -6,6 +6,7 @@ from .validators import url_validator
 
 class LessonSerializer(serializers.ModelSerializer):
     """Serialize for lessons"""
+
     url = serializers.CharField(validators=[url_validator], read_only=True)
 
     class Meta:
@@ -39,8 +40,10 @@ class CourseSerializer(serializers.ModelSerializer):
             "url",
         )
 
+
 class SubscriptionSerializer(serializers.ModelSerializer):
     """Serializer for subscription"""
+
     class Meta:
         model = Subscription
         fields = "__all__"

@@ -5,7 +5,9 @@ from course.models import Course, Lesson, Subscription
 from user.models import User
 
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
 
 class TestCase(APITestCase):
     """Базовый класс для всех тестов"""

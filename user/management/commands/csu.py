@@ -20,13 +20,13 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("User created successfully."))
 
         course = Course.objects.create(
-            title='Вводный',
-            description='Вводный курс',
+            title="Вводный",
+            description="Вводный курс",
         )
         lesson = Lesson.objects.create(
-            title='Вводный',
-            description='Вводный курс',
-            course=Course.objects.get(pk=course.pk)
+            title="Вводный",
+            description="Вводный курс",
+            course=Course.objects.get(pk=course.pk),
         )
 
         Payment.objects.create(

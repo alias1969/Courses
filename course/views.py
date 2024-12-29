@@ -13,7 +13,11 @@ from rest_framework.views import APIView
 
 from course.models import Course, Lesson, Subscription
 from course.paginators import ViewPagination
-from course.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
+from course.serializers import (
+    CourseSerializer,
+    LessonSerializer,
+    SubscriptionSerializer,
+)
 from user.permissions import IsModer, IsOwner
 
 
@@ -27,11 +31,11 @@ class CourseViewSet(ModelViewSet):
     pagination_class = ViewPagination
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == "create":
             self.permission_classes = (~IsModer,)
-        elif self.action == 'destroy':
+        elif self.action == "destroy":
             self.permission_classes = (~IsModer | IsOwner,)
-        elif self.action in ['update','retrieve']:
+        elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
         else:
             self.permission_classes = (IsModer,)
@@ -61,7 +65,7 @@ class LessonRetrieveApiView(RetrieveAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (IsModer | IsOwner, )
+        self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
 
 
@@ -70,7 +74,7 @@ class LessonUpdateApiView(UpdateAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (IsModer | IsOwner, )
+        self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
 
 
@@ -78,7 +82,7 @@ class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
 
     def get_permissions(self):
-        self.permission_classes = (~IsModer | IsOwner, )
+        self.permission_classes = (~IsModer | IsOwner,)
         return super().get_permissions()
 
 
@@ -89,7 +93,7 @@ class SubscriptionViewSet(APIView):
     serializer_class = SubscriptionSerializer
 
     def post(self, request):
-        """Создание или удаление подписки на курс """
+        """Создание или удаление подписки на курс"""
         user_id = request.user
         course_id = request.data.get("course_id")
         course_item = get_object_or_404(Course, id=course_id)

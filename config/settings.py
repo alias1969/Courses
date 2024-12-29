@@ -33,8 +33,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'rest_framework_simplejwt',
+    "rest_framework",
+    "rest_framework_simplejwt",
     "user",
     "course",
 ]
@@ -113,15 +113,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "user.User"
 
 REST_FRAMEWORK = {
-    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
-    'DATE_FORMAT': '%Y-%m-%d',
-    'TIME_FORMAT': '%H:%M',
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
+    "DATE_FORMAT": "%Y-%m-%d",
+    "TIME_FORMAT": "%H:%M",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-       'rest_framework.permissions.AllowAny',
-    ]
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
 }
 
 SIMPLE_JWT = {

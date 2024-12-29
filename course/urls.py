@@ -9,7 +9,8 @@ from course.views import (
     LessonDestroyApiView,
     LessonListApiView,
     LessonRetrieveApiView,
-    LessonUpdateApiView, SubscriptionViewSet,
+    LessonUpdateApiView,
+    SubscriptionViewSet,
 )
 
 app_name = CourseConfig.name

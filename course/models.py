@@ -6,6 +6,7 @@ NULLABLE = {"null": True, "blank": True}
 
 class Course(models.Model):
     """Курсы"""
+
     title = models.CharField(
         max_length=100,
         verbose_name="Название курса",
@@ -23,9 +24,9 @@ class Course(models.Model):
         **NULLABLE,
     )
     owner = models.ForeignKey(
-        'user.User',
+        "user.User",
         on_delete=models.CASCADE,
-        verbose_name='автор',
+        verbose_name="автор",
         **NULLABLE,
     )
 
@@ -39,6 +40,7 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     """Уроки"""
+
     title = models.CharField(
         max_length=100,
         verbose_name="Название урока",
@@ -71,9 +73,9 @@ class Lesson(models.Model):
         **NULLABLE,
     )
     owner = models.ForeignKey(
-        'user.User',
+        "user.User",
         on_delete=models.CASCADE,
-        verbose_name='автор',
+        verbose_name="автор",
         **NULLABLE,
     )
 
@@ -83,6 +85,7 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Subscription(models.Model):
     """Подписка"""
