@@ -5,11 +5,14 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
     UpdateAPIView,
+    get_object_or_404,
 )
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 
-from course.models import Course, Lesson
-from course.serializers import CourseSerializer, LessonSerializer
+from course.models import Course, Lesson, Subscription
+from course.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
 from user.permissions import IsModer, IsOwner
 
 
@@ -74,3 +77,25 @@ class LessonDestroyApiView(DestroyAPIView):
     def get_permissions(self):
         self.permission_classes = (~IsModer | IsOwner, )
         return super().get_permissions()
+
+
+class SubscriptionViewSet(APIView):
+    """эндпоинт для создания подписки на курс"""
+
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+
+    def post(self, request):
+        """Создание или удаление подписки на курс """
+        user_id = request.user
+        course_id = request.data.get("course_id")
+        course_item = get_object_or_404(Course, id=course_id)
+        sub_item = Subscription.objects.filter(user=user_id, course=course_item)
+
+        if sub_item.exists():
+            sub_item.delete()
+            message = "Подписка удалена"
+        else:
+            Subscription.objects.create(user=user_id, course=course_item)
+            message = "Подписка добавлена"
+        return Response({"message": message})
