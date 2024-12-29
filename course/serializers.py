@@ -1,15 +1,23 @@
 from rest_framework import serializers
 
 from .models import Course, Lesson, Subscription
+from .validators import url_validator
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    """Serialize for lessons"""
+    url = serializers.CharField(validators=[url_validator], read_only=True)
+
     class Meta:
         model = Lesson
-        fields = ["title"]
+        fields = ["title", "url"]
 
 
 class CourseSerializer(serializers.ModelSerializer):
+    """Serialize for courses"""
+
+    url = serializers.CharField(validators=[url_validator], read_only=True)
+
     count_of_lessons = serializers.SerializerMethodField()
     info_lessons = serializers.SerializerMethodField()
 
@@ -28,10 +36,11 @@ class CourseSerializer(serializers.ModelSerializer):
             "preview",
             "count_of_lessons",
             "info_lessons",
+            "url",
         )
 
 class SubscriptionSerializer(serializers.ModelSerializer):
-
+    """Serializer for subscription"""
     class Meta:
         model = Subscription
         fields = "__all__"
