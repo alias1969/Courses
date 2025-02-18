@@ -26,6 +26,7 @@ class HomePageView(TemplateView):
 
 
 class CourseViewSet(ModelViewSet):
+    """Viewset для работы с курсами"""
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     pagination_class = ViewPagination
@@ -46,9 +47,25 @@ class CourseViewSet(ModelViewSet):
         course.owner = self.request.user
         course.save()
 
+    def get_queryset(self):
+        """Выбирает только курсы текущего пользователя, кроме группы модератора"""
+        if self.permission_classes != (IsModer | IsOwner,):
+            return Course.objects.none()
+
+        if self.request.user.groups.filter(name="moders").exists():
+            return Course.objects.all()
+        return Course.objects.filter(owner=self.request.user)
+
 
 class LessonCreateApiView(CreateAPIView):
+    """API view для создания нового урока."""
     serializer_class = LessonSerializer
+
+    def perform_create(self, serializer):
+        """Привязывает создаваемый урок текущим пользователем."""
+        lesson = serializer.save()
+        lesson.owner = self.request.user
+        lesson.save()
 
     def get_permissions(self):
         self.permission_classes = (~IsModer,)
@@ -56,6 +73,7 @@ class LessonCreateApiView(CreateAPIView):
 
 
 class LessonListApiView(ListAPIView):
+    """API view для списка всех уроков"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     pagination_class = ViewPagination
@@ -64,8 +82,18 @@ class LessonListApiView(ListAPIView):
         self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
 
+    def get_queryset(self):
+        """Выбирает только курсы текущего пользователя, кроме группы модератора"""
+        if self.permission_classes != (IsModer | IsOwner,):
+            return Course.objects.none()
+
+        if self.request.user.groups.filter(name="moders").exists():
+            return Course.objects.all()
+        return Course.objects.filter(owner=self.request.user)
+
 
 class LessonRetrieveApiView(RetrieveAPIView):
+    """API view для урока"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
@@ -75,6 +103,7 @@ class LessonRetrieveApiView(RetrieveAPIView):
 
 
 class LessonUpdateApiView(UpdateAPIView):
+    """API view для редактирования урока"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
@@ -84,7 +113,9 @@ class LessonUpdateApiView(UpdateAPIView):
 
 
 class LessonDestroyApiView(DestroyAPIView):
+    """API view для удаления урока"""
     queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
 
     def get_permissions(self):
         self.permission_classes = (~IsModer | IsOwner,)

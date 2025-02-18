@@ -35,6 +35,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "preview",
+            "owner",
             "count_of_lessons",
             "info_lessons",
             "url",
