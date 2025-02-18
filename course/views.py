@@ -83,7 +83,7 @@ class LessonListApiView(ListAPIView):
         return super().get_permissions()
 
     def get_queryset(self):
-        """Выбирает только курсы текущего пользователя, кроме группы модератора"""
+        """Выбирает только уроки текущего пользователя, кроме группы модератора"""
         if self.permission_classes != (IsModer | IsOwner,):
             return Course.objects.none()
 
