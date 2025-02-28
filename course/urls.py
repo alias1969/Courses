@@ -16,7 +16,8 @@ from course.views import (
 app_name = CourseConfig.name
 
 router = SimpleRouter()
-router.register("courses", CourseViewSet)
+router.register("courses", CourseViewSet, basename='courses')
+
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("lessons/", LessonListApiView.as_view(), name="lessons-list"),
@@ -31,6 +32,6 @@ urlpatterns = [
         "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons-update"
     ),
     path("subscription/", SubscriptionViewSet.as_view(), name="subscription"),
-]
 
-urlpatterns += router.urls
+] + router.urls
+
