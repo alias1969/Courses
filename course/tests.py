@@ -1,3 +1,5 @@
+from webbrowser import Error
+
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
@@ -27,6 +29,7 @@ class CourseTestCase(TestCase, APITestCase):
     def test_course_retrieve(self):
         """Тестирование получения курса по ID"""
         url = reverse("course:course-detail", args=(self.course.pk,))
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], self.course.title)
@@ -58,7 +61,8 @@ class CourseTestCase(TestCase, APITestCase):
 
     def test_course_delete(self):
         """Тестирование удаления курса по ID"""
-        url = reverse("course:course-detail", args=(self.course.pk,))
+        print("!!!", reverse("course:course-delete", args=(self.course.pk,)))
+        url = reverse("course:course-delete", args=(self.course.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Course.objects.count(), 0)

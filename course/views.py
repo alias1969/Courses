@@ -29,7 +29,7 @@ class HomePageView(TemplateView):
 
 class CourseViewSet(ModelViewSet):
     """Viewset для работы с курсами"""
-    #serializer_class = CourseSerializer
+
     queryset = Course.objects.all()
     pagination_class = ViewPagination
 
@@ -43,7 +43,7 @@ class CourseViewSet(ModelViewSet):
         if self.action == "create":
             self.permission_classes = (~IsModer,)
         elif self.action == "destroy":
-            self.permission_classes = (~IsModer | IsOwner,)
+            self.permission_classes = (IsOwner | ~IsModer,)
         elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
         else:
