@@ -32,6 +32,4 @@ urlpatterns = [
         "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons-update"
     ),
     path("subscription/", SubscriptionViewSet.as_view(), name="subscription"),
-
 ] + router.urls
-

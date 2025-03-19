@@ -49,10 +49,10 @@ class Payment(models.Model):
         ("CASH", "Наличными"),
     ]
 
-    owner = models.ForeignKey(
+    user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Пользователь"
     )
-    payment_date = models.DateField(default=datetime.now, verbose_name="Дата оплаты")
+    date = models.DateField(default=datetime.now, verbose_name="Дата оплаты")
     course = models.ForeignKey(
         Course,
         on_delete=models.SET_NULL,
@@ -69,8 +69,31 @@ class Payment(models.Model):
     )
     amount = models.DecimalField(decimal_places=2, max_digits=20, verbose_name="Сумма")
     type = models.CharField(
-        max_length=50, choices=PAYMENT_CHOICES, verbose_name="Способ оплаты"
+        max_length=50,
+        choices=PAYMENT_CHOICES,
+        verbose_name="Способ оплаты",
+        default="Банковский перевод",
+    )
+    session_id = models.CharField(
+        max_length=255,
+        verbose_name="ID сессии",
+        **NULLABLE,
+    )
+    link = models.URLField(
+        max_length=400,
+        verbose_name="Ссылка на оплату",
+        **NULLABLE,
+    )
+    status = models.CharField(
+        max_length=50,
+        verbose_name="Статус платежа",
+        **NULLABLE,
     )
 
     def __str__(self):
         return f"{self.owner} - {self.get_type_display()} - {self.amount}"
+
+    class Meta:
+        verbose_name = "платеж"
+        verbose_name_plural = "платежи"
+        ordering = ["-date"]
