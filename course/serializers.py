@@ -33,7 +33,8 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_count_of_lessons(self, instance):
         """Возвращает количество уроков в курсе"""
-        return instance.lesson_set.count()
+        #return instance.lesson_set.count()
+        return Lesson.objects.filter(course=instance).count()
 
     def get_subscription_sign(self, instance):
         """Возвращает подписку на курс"""
