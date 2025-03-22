@@ -1,20 +1,22 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+from rest_framework.fields import SerializerMethodField
 
 from .models import Course, Lesson, Subscription
 from .validators import url_validator
 
 
-class LessonSerializer(serializers.ModelSerializer):
+class LessonSerializer(ModelSerializer):
     """Serialize for lessons"""
 
     url = serializers.CharField(validators=[url_validator], read_only=True)
 
     class Meta:
         model = Lesson
-        fields = ["title", "url"]
+        fields = "__all__"
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class CourseSerializer(ModelSerializer):
     """Serialize for courses"""
 
     class Meta:
@@ -22,14 +24,14 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CourseDetailSerializer(serializers.ModelSerializer):
+class CourseDetailSerializer(ModelSerializer):
     """Serializer для детального представления курса"""
 
-    count_of_lessons = serializers.SerializerMethodField()
+    count_of_lessons = SerializerMethodField()
     lesson_set = LessonSerializer(many=True, read_only=True)
-    subscription_sign = serializers.SerializerMethodField()
+    subscription_sign = SerializerMethodField()
 
-    def get_count_lessons(self, instance):
+    def get_count_of_lessons(self, instance):
         """Возвращает количество уроков в курсе"""
         return instance.lesson_set.count()
 
@@ -41,17 +43,10 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = (
-            "title",
-            "description",
-            "owner",
-            "count_of_lessons",
-            "lesson_set",
-            "subscription_sign",
-        )
+        fields = "__all__"
 
 
-class SubscriptionSerializer(serializers.ModelSerializer):
+class SubscriptionSerializer(ModelSerializer):
     """Serializer for subscription"""
 
     class Meta:
