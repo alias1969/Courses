@@ -31,6 +31,10 @@ class User(AbstractUser):
         help_text="Введите название города",
         **NULLABLE,
     )
+    token = models.CharField(max_length=100, verbose_name="Token", **NULLABLE)
+
+    is_active = models.BooleanField(verbose_name="активный пользователь")
+    last_login = models.DateTimeField(verbose_name="дата последнего входа", **NULLABLE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

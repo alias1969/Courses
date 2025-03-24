@@ -1,12 +1,14 @@
+from datetime import datetime
+
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
-from tutorial.quickstart.serializers import UserSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 
 from .models import Payment, User
-from .serializers import PaymentSerializer
-from rest_framework.generics import CreateAPIView, ListAPIView
+from .serializers import PaymentSerializer, UserSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404
 from user.services import create_stripe_price, create_stripe_session
 
 
@@ -16,6 +18,12 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    @action(detail=True, methods=('post,'))
+    def last_login(self, pk):
+        user = get_object_or_404(User, pk=pk)
+        if user:
+            user.last_login = datetime.now()
+            user.save()
 
 class UserCreateAPIView(CreateAPIView):
     """API view создания пользователя"""

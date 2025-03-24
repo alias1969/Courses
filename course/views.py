@@ -20,6 +20,7 @@ from course.serializers import (
     LessonSerializer,
     SubscriptionSerializer,
 )
+from course.tasks import mail_about_update_course
 from user.permissions import IsModer, IsOwner
 
 
@@ -54,6 +55,11 @@ class CourseViewSet(ModelViewSet):
         course = serializer.save()
         course.owner = self.request.user
         course.save()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        mail_about_update_course.delay(course.pk)
+        return course
 
     def get_queryset(self):
         """Выбирает только курсы текущего пользователя, кроме группы модератора"""
