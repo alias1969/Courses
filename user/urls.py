@@ -15,7 +15,7 @@ from user.apps import UserConfig
 app_name = UserConfig.name
 
 router = DefaultRouter()
-router.register("", UserViewSet)
+router.register("user", UserViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

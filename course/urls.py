@@ -16,7 +16,7 @@ from course.views import (
 app_name = CourseConfig.name
 
 router = SimpleRouter()
-router.register("course", CourseViewSet)
+router.register("course", CourseViewSet, basename='course')
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),

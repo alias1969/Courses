@@ -61,8 +61,7 @@ class CourseTestCase(TestCase, APITestCase):
 
     def test_course_delete(self):
         """Тестирование удаления курса по ID"""
-        print("!!!", reverse("course:course-delete", args=(self.course.pk,)))
-        url = reverse("course:course-delete", args=(self.course.pk,))
+        url = reverse("course:course-detail", args=(self.course.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Course.objects.count(), 0)

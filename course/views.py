@@ -63,9 +63,9 @@ class CourseViewSet(ModelViewSet):
 
     def get_queryset(self):
         """Выбирает только курсы текущего пользователя, кроме группы модератора"""
-        if self.permission_classes != (IsModer | IsOwner,):
-            return Course.objects.none()
-
+        # if self.permission_classes != (IsModer | IsOwner,):
+        #     return Course.objects.none()
+        #
         if self.request.user.groups.filter(name="moders").exists():
             return Course.objects.all()
         return Course.objects.filter(owner=self.request.user)
