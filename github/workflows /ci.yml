@@ -34,9 +34,26 @@ jobs:
     - name: Run tests
       run: python manage.py test
 
-  deploy:
+  build:
     runs-on: ubuntu-latest
     needs: test
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Log in Docker hub
+        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }} .
+
+      - name: Push Docker image in Docker hub
+        run: docker push ${{ DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
