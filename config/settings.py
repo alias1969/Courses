@@ -15,7 +15,7 @@ import os
 from datetime import timedelta
 
 from celery.bin.worker import CELERY_BEAT
-from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
+from django.conf.global_settings import CSRF_TRUSTED_ORIGINS, STATIC_ROOT
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -110,6 +110,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR /"static"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -147,8 +148,8 @@ STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # Настройки для Celery
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 

@@ -6,15 +6,15 @@ services:
     restart: on-failure
     container_name: postgres
     environment:
-      - POSTGRES_DB={NAME}
-      - POSRGRES_USER={DBUSER}
+      - POSTGRES_DB=${NAME}
+      - POSTGRES_USER=${DBUSER}
       - POSTGRES_PASSWORD=${PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - '5433:5432'
     env_file:
-      - ./.env
+      - .env
     healthcheck:
       test: ['CMD-SHELL', '-c', 'pg_isready -U ${DBUSER}']
       interval: 10s
@@ -25,7 +25,7 @@ services:
   redis:
     image: redis:latest
     container_name: redis
-    command: sh -c 'redis-server --save 20 i --loglevel warning'
+    command: sh -c "redis-server"
     volumes:
       - .data.cache:/data
     ports:
@@ -41,7 +41,7 @@ services:
       - '8000:8000'
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
-    command: pip run sh -c 'python3 manage.py collectstatic --no-input && python3 manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000'
+    command: sh -c "python3 manage.py collectstatic --no-input && python3 manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -66,7 +66,7 @@ services:
     build: .
     container_name: beat
     tty: true
-    command: sh -c 'celery -A config beat --loglevel=info'
+    command: sh -c "sleep 30 && celery -A config beat --loglevel=info"
     restart: on-failure
     volumes:
       - .:/app
