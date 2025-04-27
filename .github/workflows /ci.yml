@@ -20,8 +20,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ${{ secrets.DEPLOY_DIR }}
-          source .venv/bin/activate
           python -m pip install --upgrade pip
        #   pip install flake8
           if [-f requirements.txt]; then pip install -r requirements.txt; fi
@@ -61,14 +59,13 @@ jobs:
 
     - name: Install dependencies
       run: |        
-        cd ${{ secrets.DEPLOY_DIR }}
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Wait for PostgresSQL
       run: |
         until pg_isready -h localhost -p 5432 -U test_user; do
-          sleep_1
+          sleep 1
         done
 
 #    - name: Cache pip
@@ -85,7 +82,7 @@ jobs:
         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_HOST: localhost
 
       run: python manage.py migrate
 
