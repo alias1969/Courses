@@ -63,7 +63,7 @@ jobs:
 
     - name: Run migrations
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: django-insecure
         NAME: ${{ secrets.POSTGRES_DB }}
         DBUSER: ${{ secrets.POSTGRES_USER }}
         PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
