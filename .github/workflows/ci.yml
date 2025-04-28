@@ -75,7 +75,7 @@ jobs:
       run: python manage.py test
 
   build:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: test
 
     steps:
