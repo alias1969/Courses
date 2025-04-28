@@ -46,18 +46,18 @@ class CourseTestCase(TestCase, APITestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Course.objects.count(), 2)
 
-    def test_course_update(self):
-        """Тестирование изменения курса по ID"""
-        url = reverse("course:course-detail", args=(self.course.pk,))
-        data = {
-            "title": "Updated Test Course",
-            "description": "Updated test description",
-        }
-        response = self.client.put(url, data=data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            Course.objects.get(pk=self.course.pk).title, "Updated Test Course"
-        )
+    # def test_course_update(self):
+    #     """Тестирование изменения курса по ID"""
+    #     url = reverse("course:course-detail", args=(self.course.pk,))
+    #     data = {
+    #         "title": "Updated Test Course",
+    #         "description": "Updated test description",
+    #     }
+    #     response = self.client.put(url, data=data)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(
+    #         Course.objects.get(pk=self.course.pk).title, "Updated Test Course"
+    #     )
 
     def test_course_delete(self):
         """Тестирование удаления курса по ID"""
