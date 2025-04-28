@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
-from celery.bin.worker import CELERY_BEAT
-from django.conf.global_settings import CSRF_TRUSTED_ORIGINS, STATIC_ROOT
 from dotenv import load_dotenv
 
 load_dotenv()
