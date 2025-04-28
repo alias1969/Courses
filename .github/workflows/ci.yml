@@ -2,9 +2,9 @@ name: python Project DRF
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ 'main' ]
+    branches: [ "main" ]
 
 jobs:
   lint:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v3
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -41,7 +41,7 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        ports: ['5432:5432']
+        ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -55,7 +55,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: "3.12"
 
     - name: Install dependencies
       run: |        
