@@ -64,10 +64,10 @@ jobs:
     - name: Run migrations
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_HOST: localhost
+        NAME: ${{ secrets.POSTGRES_DB }}
+        USER: ${{ secrets.POSTGRES_USER }}
+        PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        HOST: localhost
 
       run: python manage.py migrate
 
