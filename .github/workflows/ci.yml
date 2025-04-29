@@ -1,4 +1,4 @@
-name: python Project DRF
+name: python Project DRF (DOCKER)
 
 on:
   push:
