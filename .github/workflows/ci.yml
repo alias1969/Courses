@@ -116,24 +116,3 @@ jobs:
             git pull origin main
             docker compose down
             docker compose up -d --build
-
-      - name: Connect to server & deploy
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_SERVER_KEY }}
-
-      - name: Add known hosts
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to Server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
-            docker stop courses || true
-            docker rm courses || true
-            docker run -d --name courses -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
-          EOF
