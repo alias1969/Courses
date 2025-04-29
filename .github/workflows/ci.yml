@@ -110,7 +110,7 @@ jobs:
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSSH_PUBLIC_KEY }}
+          key: ${{ secrets.SSH_SERVER_KEY }}
           script: |
             cd Courses
             git pull origin main
