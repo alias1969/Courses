@@ -117,4 +117,9 @@ jobs:
 
       - name: Deploy to Server
         run: | 
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF' 
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/online_education:${{ github.sha }} 
+            docker stop online_education || true 
+            docker rm online_education || true 
+            docker run -d --name online_education -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/online_education:${{ github.sha }} 
+          EOF
