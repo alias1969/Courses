@@ -119,7 +119,7 @@ jobs:
         run: | 
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF' 
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
-            docker stop online_education || true 
-            docker rm online_education || true 
+            docker stop courses || true 
+            docker rm courses || true 
             docker run -d --name courses -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
           EOF
