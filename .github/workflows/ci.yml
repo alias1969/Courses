@@ -116,10 +116,15 @@ jobs:
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
-            docker stop courses || true
-            docker rm courses || true
-            docker run -d --name courses -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
-          EOF
+        run: | 
+          ssh -i ~/.ssh/id_ed25519 \ 
+              -o StrictHostKeyChecking=no \ 
+              -o UserKnownHostsFile=/dev/null \ 
+              ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} < 'EOF' 
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
+          docker stop courses || true 
+          docker rm courses || true 
+          docker run -d \ 
+            --name courses \ 
+            -p 80:8000 \ 
+            ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} EOF
