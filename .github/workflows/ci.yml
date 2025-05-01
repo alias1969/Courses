@@ -107,6 +107,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_SERVER_KEY }}
+        run: ssh-add -l
 
       - name: Deploy to Server
         run: | 
