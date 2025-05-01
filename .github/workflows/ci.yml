@@ -108,13 +108,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_SERVER_KEY }}
 
-      - name: Add known hosts
-        run: |
-          mkdir -p ~/.ssh || true 
-          echo "${{ secrets.SSH_SERVER_KEY }}" > ~/.ssh/id_ed25519 || true 
-          chmod 600 ~/.ssh/id_ed25519 || true 
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts || true 
-
       - name: Deploy to Server
         run: | 
           mkdir -p ~/.ssh && echo "${{ secrets.SSH_SERVER_KEY }}" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
