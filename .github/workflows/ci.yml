@@ -121,5 +121,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
             sudo docker stop courses || true 
             sudo docker rm courses || true 
-            sudo docker run -d --name courses -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
+            sudo docker run -d --name courses -e SECRET_KEY="${{ secrets.SECRET_KEY }}" -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
           EOF
