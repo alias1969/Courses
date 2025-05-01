@@ -117,6 +117,7 @@ jobs:
 
       - name: Deploy to Server
         run: | 
+          mkdir -p ~/.ssh && echo "${{ secrets.SSH_SERVER_KEY }}" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF' 
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }} 
             sudo docker stop courses || true 
