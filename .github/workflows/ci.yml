@@ -110,7 +110,6 @@ jobs:
 
       - name: Deploy to Server
         run: | 
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/authorized_keys
           eval ssh-agent -s && ssh-add ~/.ssh/id_ed25519
           mkdir -p ~/.ssh && echo "${{ secrets.SSH_SERVER_KEY }}" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF' 
