@@ -37,8 +37,8 @@ services:
       - .env
     container_name: app
     tty: true
-    ports:
-      - '8000:8000'
+    expose:
+      - 8000
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
     command: sh -c "python3 manage.py collectstatic --no-input && python3 manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
